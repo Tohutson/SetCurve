@@ -96,6 +96,16 @@ select { width: 100%; height: 43px; padding: 0 36px 0 12px; border: 1px solid va
 .actual-point:focus { outline: none; stroke: var(--green); stroke-width: 4; }
 .result-point-enter { animation: point-reveal 180ms ease-out both; transform-box: fill-box; transform-origin: center; }
 @keyframes point-reveal { from { opacity: 0; transform: scale(.65); } to { opacity: 1; transform: scale(1); } }
+.point-flash-group { pointer-events: none; animation: point-flash 950ms ease-out both; }
+.point-flash-leader { stroke: #dfe5e1; stroke-width: 1; stroke-dasharray: 2 3; vector-effect: non-scaling-stroke; }
+.point-flash-object { overflow: visible; }
+.point-flash-card { width: 100%; height: 100%; display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: center; gap: 10px; padding: 7px; border: 1px solid #4a524d; border-radius: 5px; background: #171b18; box-shadow: 0 7px 20px #0009; color: var(--text); }
+.point-flash-card img, .point-flash-art { width: 48px; height: 48px; object-fit: cover; border-radius: 3px; background: var(--surface-3); }
+.point-flash-copy { min-width: 0; }
+.point-flash-copy strong, .point-flash-copy small { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.point-flash-copy strong { font-size: 12px; line-height: 1.25; }
+.point-flash-copy small { margin-top: 4px; color: var(--muted); font-size: 9px; }
+@keyframes point-flash { 0% { opacity: 0; transform: translateY(3px); } 12%, 72% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-2px); } }
 .pointer-capture { fill: transparent; cursor: crosshair; touch-action: none; }
 .curve-actions { min-height: 60px; border-top: 1px solid var(--border); padding: 11px 13px 11px 18px; display: flex; justify-content: space-between; align-items: center; gap: 15px; }
 .curve-actions p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.45; }

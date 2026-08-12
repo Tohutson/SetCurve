@@ -24,15 +24,21 @@ describe('playlist optimizer', () => {
   });
 
   it('clamps beam width to the maximum for short playlists', () => {
-    expect(calculateBeamWidth(1)).toBe(75);
+    expect(calculateBeamWidth(1)).toBe(94);
   });
 
   it('clamps beam width to the minimum for long playlists', () => {
-    expect(calculateBeamWidth(1_000)).toBe(5);
+    expect(calculateBeamWidth(1_000)).toBe(6);
   });
 
   it('decreases beam width as playlist length increases', () => {
     expect(calculateBeamWidth(100)).toBeLessThan(calculateBeamWidth(10));
+  });
+
+  it('uses the increased proportional search budget', () => {
+    expect(calculateBeamWidth(75)).toBe(87);
+    expect(calculateBeamWidth(100)).toBe(49);
+    expect(calculateBeamWidth(200)).toBe(12);
   });
 
   it('returns a deterministic beam order', () => {

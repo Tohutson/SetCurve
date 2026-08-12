@@ -25,13 +25,23 @@ type CurveGraphProps = {
   curve: CurvePoint[];
   placements?: TrackPlacement[];
   placementTracks?: TrackWithMetric[];
+  featuredPlacementIndex?: number | null;
   durationLabel: string;
   metricLabel?: string;
   children?: React.ReactNode;
   className?: string;
 };
 
-export function CurveGraph({ curve, placements = [], placementTracks = [], durationLabel, metricLabel = 'Energy', children, className }: CurveGraphProps) {
+export function CurveGraph({
+  curve,
+  placements = [],
+  placementTracks = [],
+  featuredPlacementIndex = null,
+  durationLabel,
+  metricLabel = 'Energy',
+  children,
+  className,
+}: CurveGraphProps) {
   const actualPath = placements
     .map((placement, index) => `${index === 0 ? 'M' : 'L'} ${graphX(placement.normalizedMidpoint)} ${graphY(placement.metric)}`)
     .join(' ');
@@ -78,6 +88,44 @@ export function CurveGraph({ curve, placements = [], placementTracks = [], durat
           </circle>
         );
       })}
+      <FeaturedTrackCallout
+        placement={featuredPlacementIndex === null ? undefined : placements[featuredPlacementIndex]}
+        track={featuredPlacementIndex === null ? undefined : placementTracks[featuredPlacementIndex]}
+        animationKey={featuredPlacementIndex}
+      />
     </svg>
+  );
+}
+
+type FeaturedTrackCalloutProps = {
+  placement?: TrackPlacement;
+  track?: TrackWithMetric;
+  animationKey: number | null;
+};
+
+function FeaturedTrackCallout({ placement, track, animationKey }: FeaturedTrackCalloutProps) {
+  if (!placement || !track || animationKey === null) return null;
+  const width = 210;
+  const height = 62;
+  const pointX = graphX(placement.normalizedMidpoint);
+  const pointY = graphY(placement.metric);
+  const x = Math.max(GRAPH_PADDING.left, Math.min(GRAPH_WIDTH - GRAPH_PADDING.right - width, pointX - width / 2));
+  const showBelow = pointY < GRAPH_PADDING.top + height + 18;
+  const y = showBelow ? pointY + 14 : pointY - height - 14;
+  const leaderY = showBelow ? y : y + height;
+
+  return (
+    <g key={`featured-${animationKey}`} className="point-flash-group" aria-hidden="true">
+      <line x1={pointX} y1={pointY} x2={pointX} y2={leaderY} className="point-flash-leader" />
+      <foreignObject x={x} y={y} width={width} height={height} className="point-flash-object">
+        <div className="point-flash-card">
+          {track.imageUrl ? <img src={track.imageUrl} alt="" /> : <span className="point-flash-art" />}
+          <span className="point-flash-copy">
+            <strong>{track.name}</strong>
+            <small>{track.artistNames.join(', ')}</small>
+          </span>
+        </div>
+      </foreignObject>
+    </g>
   );
 }

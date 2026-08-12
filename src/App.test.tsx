@@ -44,6 +44,7 @@ const testTrack = {
   name: 'Test Track',
   artistNames: ['Test Artist'],
   durationMs: 180_000,
+  imageUrl: 'https://example.com/test-cover.jpg',
   originalIndex: 0,
 };
 
@@ -158,9 +159,15 @@ describe('main workflow', () => {
 
     expect(await screen.findByRole('button', { name: /skip animation/i })).toBeVisible();
     expect(document.querySelectorAll('.actual-point')).toHaveLength(0);
-    await waitFor(() => expect(document.querySelectorAll('.actual-point')).toHaveLength(1));
+    await waitFor(() => expect(document.querySelectorAll('.actual-point')).toHaveLength(1), { timeout: 2_000 });
+    const pointCallout = document.querySelector('.point-flash-card');
+    expect(pointCallout).not.toBeNull();
+    expect(pointCallout?.textContent).toContain('Test Track');
+    expect(pointCallout?.textContent).toContain('Test Artist');
+    expect(pointCallout?.querySelector('img')).toHaveAttribute('src', 'https://example.com/test-cover.jpg');
     fireEvent.click(screen.getByRole('button', { name: /skip animation/i }));
     expect(document.querySelectorAll('.actual-point')).toHaveLength(2);
+    expect(document.querySelector('.point-flash-card')).toBeNull();
     expect(screen.getByRole('heading', { name: /optimized track order/i })).toBeVisible();
   });
 });

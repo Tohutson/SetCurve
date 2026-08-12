@@ -1,9 +1,9 @@
 import { evaluateCurve } from '../curve/math';
 import type { CurvePoint, TrackWithMetric } from '../domain/types';
 
-export const MIN_BEAM_WIDTH = 5;
-export const MAX_BEAM_WIDTH = 75;
-export const BEAM_EXPANSION_BUDGET = 200_000;
+export const MIN_BEAM_WIDTH = 6;
+export const MAX_BEAM_WIDTH = 94;
+export const BEAM_EXPANSION_BUDGET = 250_000;
 export const MAX_SWAP_PASSES = 25;
 export const MAX_SWAP_EVALUATIONS = 20_000;
 const COST_EPSILON = 1e-10;

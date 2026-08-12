@@ -4,7 +4,7 @@ import { clearSpotifySession, completeSpotifyLogin, hasSpotifySession, startSpot
 import { CurveEditor } from './components/CurveEditor';
 import { PlaylistPanel } from './components/PlaylistPanel';
 import { Results } from './components/Results';
-import { getRevealDelay } from './components/reveal';
+import { getRevealDelay, POINT_FLASH_DURATION_MS } from './components/reveal';
 import { isFullDomainCurve } from './curve/math';
 import type { CreatedPlaylist, CurvePoint, PlaylistSummary, Track, TrackWithMetric, UserProfile } from './domain/types';
 import { MetricAccessError, type TrackMetricProvider } from './metrics/provider';
@@ -61,6 +61,7 @@ export default function App() {
   const [curve, setCurve] = useState<CurvePoint[]>([]);
   const [result, setResult] = useState<OptimizationResult | null>(null);
   const [revealedCount, setRevealedCount] = useState(0);
+  const [featuredTrackIndex, setFeaturedTrackIndex] = useState<number | null>(null);
   const [created, setCreated] = useState<CreatedPlaylist | null>(null);
   const [playlistState, setPlaylistState] = useState<LoadState>('idle');
   const [trackState, setTrackState] = useState<LoadState>('idle');
@@ -114,12 +115,19 @@ export default function App() {
       setStage('result-ready');
       return;
     }
-    const timer = window.setTimeout(
-      () => setRevealedCount((count) => Math.min(count + 1, result.placements.length)),
-      getRevealDelay(result.placements.length),
-    );
+    const nextCount = Math.min(revealedCount + 1, result.placements.length);
+    const timer = window.setTimeout(() => {
+      setRevealedCount(nextCount);
+      setFeaturedTrackIndex(nextCount - 1);
+    }, getRevealDelay(result.placements.length));
     return () => window.clearTimeout(timer);
   }, [reducedMotion, result, revealedCount, stage]);
+
+  useEffect(() => {
+    if (featuredTrackIndex === null) return;
+    const timer = window.setTimeout(() => setFeaturedTrackIndex(null), POINT_FLASH_DURATION_MS);
+    return () => window.clearTimeout(timer);
+  }, [featuredTrackIndex]);
 
   async function connect() {
     setMessage('');
@@ -142,6 +150,7 @@ export default function App() {
     setCurve([]);
     setResult(null);
     setRevealedCount(0);
+    setFeaturedTrackIndex(null);
     setCreated(null);
     setMetricError('');
     setMessage('');
@@ -187,6 +196,7 @@ export default function App() {
     setCurve(nextCurve);
     setResult(null);
     setRevealedCount(0);
+    setFeaturedTrackIndex(null);
     setCreated(null);
     setStage(isFullDomainCurve(nextCurve) ? 'curve-ready' : 'drawing');
   }
@@ -220,9 +230,11 @@ export default function App() {
       setResult(nextResult);
       if (reducedMotion) {
         setRevealedCount(nextResult.placements.length);
+        setFeaturedTrackIndex(null);
         setStage('result-ready');
       } else {
         setRevealedCount(0);
+        setFeaturedTrackIndex(null);
         setStage('revealing-result');
       }
     } catch (reason) {
@@ -263,6 +275,7 @@ export default function App() {
     setCurve([]);
     setResult(null);
     setRevealedCount(0);
+    setFeaturedTrackIndex(null);
     setCreated(null);
   }
 
@@ -320,12 +333,14 @@ export default function App() {
               metricLabel={metricLabel}
               placements={visiblePlacements}
               placementTracks={visibleTracks}
+              featuredPlacementIndex={featuredTrackIndex}
               mode={graphMode}
               canDraw={canDraw}
               onDrawBlocked={requireDrawingContext}
               onSkipAnimation={() => {
                 if (!result) return;
                 setRevealedCount(result.placements.length);
+                setFeaturedTrackIndex(null);
                 setStage('result-ready');
               }}
             />

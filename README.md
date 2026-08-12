@@ -155,10 +155,10 @@ The search appends each unused track to each current beam state. The search rank
 SetCurve calculates beam width from playlist length:
 
 ```text
-floor((2 * 200000) / (trackCount * (trackCount + 1)))
+floor((2 * 250000) / (trackCount * (trackCount + 1)))
 ```
 
-SetCurve clamps the value from 5 to 75. A longer playlist uses a narrower beam. The user interface does not expose this internal value.
+SetCurve clamps the value from 6 to 94. This gives the search approximately 25 percent more capacity than the initial configuration. A longer playlist uses a narrower beam. The user interface does not expose this internal value.
 
 The placement cost uses the track midpoint. The cost is the absolute difference between track energy and target energy.
 
@@ -174,9 +174,9 @@ The main page uses one graph for drawing and results.
 
 The graph starts in an empty state. The user can connect Spotify and load a playlist without leaving the page. The user then draws one target curve.
 
-After optimization, the target curve stays visible. SetCurve reveals the final track points in playlist order. Each point uses the track midpoint for its time position.
+After optimization, the target curve stays visible. SetCurve reveals the final track points in playlist order. Each point uses the track midpoint for its time position. A short callout shows the album image, track title, and artist for the newest point.
 
-The reveal interval decreases for longer playlists. Use the **Skip animation** action to show all points immediately.
+SetCurve reveals one track each second. Use the **Skip animation** action to show all points immediately.
 
 SetCurve reads the `prefers-reduced-motion` browser setting. SetCurve shows the complete result immediately when reduced motion is active.
 

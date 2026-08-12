@@ -13,6 +13,7 @@ type CurveEditorProps = {
   metricLabel?: string;
   placements?: TrackPlacement[];
   placementTracks?: TrackWithMetric[];
+  featuredPlacementIndex?: number | null;
   mode: 'empty' | 'drawing' | 'curve-ready' | 'optimizing' | 'revealing-result' | 'result-ready';
   canDraw: boolean;
   onDrawBlocked: () => void;
@@ -28,6 +29,7 @@ export function CurveEditor({
   metricLabel,
   placements = [],
   placementTracks = [],
+  featuredPlacementIndex = null,
   mode,
   canDraw,
   onDrawBlocked,
@@ -90,7 +92,7 @@ export function CurveEditor({
 
   return (
     <div className={`curve-editor graph-mode-${mode}`}>
-      <CurveGraph curve={points} placements={placements} placementTracks={placementTracks} durationLabel={durationLabel} metricLabel={metricLabel} className="curve-svg" >
+      <CurveGraph curve={points} placements={placements} placementTracks={placementTracks} featuredPlacementIndex={featuredPlacementIndex} durationLabel={durationLabel} metricLabel={metricLabel} className="curve-svg" >
         <rect
           x={GRAPH_PADDING.left}
           y={GRAPH_PADDING.top}
