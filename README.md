@@ -8,6 +8,16 @@ The user selects one playlist. The user draws a target energy curve. SetCurve ca
 
 SetCurve does not change the source playlist.
 
+## Interface
+
+Draw a target intensity curve across the playlist time.
+
+![A completed target intensity curve in SetCurve](docs/screenshots/target-curve.png)
+
+Review the optimized track points against the same target curve.
+
+![Optimized track points fitted to the target curve in SetCurve](docs/screenshots/optimized-fit.png)
+
 ## Prerequisites
 
 - Install Node.js 20.19 or a later supported version.
