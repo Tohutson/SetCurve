@@ -290,7 +290,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <a href="/" className="brand" aria-label="SetCurve home"><span className="brand-mark"><Headphones size={19} /></span><span>SETCURVE</span></a>
+        <a href="/" className="brand" aria-label="SetCurve home"><span className="brand-mark"><Headphones size={17} /></span><span>SETCURVE</span></a>
         {testMode && <span className="test-mode-badge">Test mode · random values</span>}
         {connected ? (
           <div className="account">
@@ -302,11 +302,6 @@ export default function App() {
       </header>
 
       <main className="main-page">
-        <div className="page-heading">
-          <div><span className="eyebrow">Playlist curve editor</span><h1>Shape the sequence.</h1></div>
-          <p>Draw one target curve. SetCurve orders every eligible track and creates a new Spotify playlist. The source playlist stays unchanged.</p>
-        </div>
-
         {message && <div className="workspace-error" role="alert"><AlertCircle size={18} /><span>{message}</span><button type="button" onClick={() => setMessage('')} aria-label="Dismiss message">×</button></div>}
 
         <div className="workspace">
@@ -360,7 +355,7 @@ export default function App() {
           <Results result={result} sourceCount={eligibleTracks.length + excludedCount} excludedCount={excludedCount} created={created} />
         )}
       </main>
-      <footer><span>SetCurve is an independent tool.</span><span>Music data and artwork are provided by Spotify.</span></footer>
+      <footer><span>SetCurve is independent. The source playlist stays unchanged.</span><span>Music data and artwork are provided by Spotify.</span></footer>
     </div>
   );
 }

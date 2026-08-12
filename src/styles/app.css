@@ -26,18 +26,16 @@ a { color: inherit; }
 button { color: inherit; }
 
 .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
-.topbar { height: 60px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 4vw; background: #0d100e; }
-.brand { display: inline-flex; align-items: center; gap: 11px; color: var(--text); text-decoration: none; font-size: 14px; font-weight: 800; letter-spacing: .18em; }
-.brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid #3a413d; border-radius: 50%; color: var(--green); }
+.topbar { height: 54px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 3vw; background: #0d100e; }
+.topbar .button { min-height: 36px; padding-inline: 14px; }
+.brand { display: inline-flex; align-items: center; gap: 9px; color: var(--text); text-decoration: none; font-size: 13px; font-weight: 800; letter-spacing: .16em; }
+.brand-mark { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid #3a413d; border-radius: 50%; color: var(--green); }
 .account { display: flex; align-items: center; gap: 10px; color: #d9dedb; font-size: 13px; }
 .account img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
 .account button { border: 0; background: transparent; color: var(--muted); display: grid; place-items: center; padding: 7px; cursor: pointer; }
 .test-mode-badge { margin-left: auto; margin-right: 22px; padding: 6px 9px; border: 1px solid #6e5b2e; border-radius: 4px; background: #282111; color: #f0cd75; font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
 
 .main-page { flex: 1; width: 100%; }
-.page-heading { padding: 18px 4vw 16px; display: grid; grid-template-columns: minmax(300px, .8fr) minmax(340px, 1.2fr); gap: 7vw; align-items: end; border-bottom: 1px solid var(--border); }
-.page-heading h1 { margin: 0; font-size: clamp(30px, 3.2vw, 44px); line-height: 1; letter-spacing: -.045em; }
-.page-heading p { max-width: 700px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
 .workspace-error { margin: 18px 4vw 0; display: grid; grid-template-columns: 22px 1fr 24px; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid #743c3c; border-radius: 6px; background: #2b1717; font-size: 12px; }
 .workspace-error svg { color: var(--danger); }
 .workspace-error button { border: 0; background: transparent; color: #d8aaa9; cursor: pointer; font-size: 20px; }
@@ -85,7 +83,7 @@ select { width: 100%; height: 43px; padding: 0 36px 0 12px; border: 1px solid va
 .duration-stat span { display: block; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-size: 9px; }
 .duration-stat strong { font-size: 19px; font-variant-numeric: tabular-nums; }
 .curve-editor { border: 1px solid var(--border); border-radius: 9px; background: var(--surface); overflow: hidden; }
-.curve-svg { display: block; width: 100%; height: auto; min-height: 260px; max-height: 405px; }
+.curve-svg { display: block; width: 100%; height: auto; min-height: 300px; }
 .graph-plot { fill: #0d100e; }
 .graph-grid { stroke: #2b302d; stroke-width: 1; vector-effect: non-scaling-stroke; }
 .graph-grid-vertical { stroke-dasharray: 2 5; stroke: #222724; }
@@ -156,7 +154,6 @@ footer { min-height: 40px; margin-top: auto; padding: 0 4vw; display: flex; alig
 
 @media (max-width: 900px) {
   .workspace { grid-template-columns: 1fr; }
-  .page-heading { grid-template-columns: 1fr; gap: 18px; }
   .playlist-panel { border-right: 0; border-bottom: 1px solid var(--border); }
   .source-track-list { max-height: 240px; overflow: auto; }
   .summary-grid { grid-template-columns: repeat(3, 1fr); }
@@ -167,15 +164,14 @@ footer { min-height: 40px; margin-top: auto; padding: 0 4vw; display: flex; alig
 }
 
 @media (max-width: 600px) {
-  .topbar { height: 62px; padding: 0 18px; }
+  .topbar { height: 54px; padding: 0 14px; }
   .account span { display: none; }
   .test-mode-badge { margin-right: 8px; font-size: 8px; }
   .playlist-panel, .curve-workspace { padding: 26px 18px; }
-  .page-heading { padding: 28px 18px 24px; }
   .workspace-error { margin: 14px 18px 0; }
   .workspace-heading, .results-header { align-items: flex-start; flex-direction: column; }
   .duration-stat { text-align: left; }
-  .curve-svg { min-height: 230px; max-height: none; }
+  .curve-svg { min-height: 230px; }
   .curve-actions { align-items: stretch; flex-direction: column; }
   .button-row { flex-wrap: wrap; }
   .results { padding: 40px 18px 60px; }
